@@ -2,9 +2,13 @@
   "name": "remote-qt-designer",
   "displayName": "Remote Qt Designer",
   "description": "Right-click .ui files to open in Qt Designer. Supports both native Ubuntu (SSH X11) and Docker environments.",
-  "version": "2.1.0",
+  "version": "3.1.1",
   "publisher": "libing",
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/pyaude/remote-qt-designer.git"
+  },
   "icon": "icon.jpg",
   "engines": {
     "vscode": "^1.60.0"
