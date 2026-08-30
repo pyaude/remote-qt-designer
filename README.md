@@ -9,7 +9,7 @@
 Ctrl+Shift+P → "Extensions: Install from VSIX" → 选择 .vsix 文件
 
 # 方法 2：命令行
-code --install-extension remote-qt-designer-3.1.1.vsix
+code --install-extension remote-qt-designer-2.1.0.vsix
 ```
 
 ## 使用

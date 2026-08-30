@@ -20,7 +20,7 @@ VSCode 扩展 **Remote Qt Designer**（`remote-qt-designer`）：右键 `.ui` �
 - `build.sh` — 打包脚本
 - `README.md` — 用户文档（中文）
 - `LICENSE` — MIT 许可证
-- `icon.jpg` — 扩展图标
+- `icon.png` — 扩展图标（1024×1024 PNG，由临时脚本绘制生成）
 
 ### extension.js 关键函数
 
