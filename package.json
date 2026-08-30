@@ -1,0 +1,95 @@
+{
+  "name": "remote-qt-designer",
+  "displayName": "Remote Qt Designer",
+  "description": "Right-click .ui files to open in Qt Designer. Supports both native Ubuntu (SSH X11) and Docker environments.",
+  "version": "2.1.0",
+  "publisher": "libing",
+  "license": "MIT",
+  "icon": "icon.jpg",
+  "engines": {
+    "vscode": "^1.60.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onFileSystem:/**/*.ui"
+  ],
+  "main": "./extension.js",
+  "contributes": {
+    "configuration": {
+      "title": "Remote Qt Designer",
+      "properties": {
+        "qtDesigner.executionMode": {
+          "type": "string",
+          "enum": [
+            "auto",
+            "docker",
+            "native"
+          ],
+          "default": "auto",
+          "enumDescriptions": [
+            "自动检测：Docker 容器在运行用 Docker，否则用 Native",
+            "强制使用 Docker 容器内的 Designer",
+            "强制使用宿主机本地安装的 Designer"
+          ],
+          "description": "执行模式：auto（自动检测）、docker、native"
+        },
+        "qtDesigner.dockerContainerName": {
+          "type": "string",
+          "default": "litho-zero-qt-dev-1",
+          "description": "Docker 容器名称（docker compose 启动后的容器名）"
+        },
+        "qtDesigner.dockerWorkspacePath": {
+          "type": "string",
+          "default": "/workspace",
+          "description": "容器内映射的工作区根路径"
+        },
+        "qtDesigner.dockerDesignerPath": {
+          "type": "string",
+          "default": "designer",
+          "description": "容器内 designer 命令路径"
+        },
+        "qtDesigner.nativeDesignerPath": {
+          "type": "string",
+          "default": "/opt/qt/5.14.2/gcc_64/bin/designer",
+          "description": "宿主机上 Qt Designer 二进制路径"
+        },
+        "qtDesigner.display": {
+          "type": "string",
+          "default": "",
+          "description": "覆盖 DISPLAY 环境变量（留空则使用环境中的值）"
+        }
+      }
+    },
+    "commands": [
+      {
+        "command": "qtDesigner.open",
+        "title": "Open with Qt Designer",
+        "icon": "$(layout-centered)"
+      }
+    ],
+    "menus": {
+      "explorer/context": [
+        {
+          "command": "qtDesigner.open",
+          "when": "resourceExtname == .ui",
+          "group": "navigation"
+        }
+      ],
+      "editor/title": [
+        {
+          "command": "qtDesigner.open",
+          "when": "resourceExtname == .ui",
+          "group": "navigation"
+        }
+      ],
+      "commandPalette": [
+        {
+          "command": "qtDesigner.open",
+          "when": "resourceExtname == .ui"
+        }
+      ]
+    }
+  }
+}
