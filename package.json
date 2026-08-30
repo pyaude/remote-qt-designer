@@ -50,6 +50,11 @@
           "default": "designer",
           "description": "容器内 designer 命令路径"
         },
+        "qtDesigner.dockerDisplay": {
+          "type": "string",
+          "default": "",
+          "description": "Docker 模式下容器内的 DISPLAY（留空自动检测；macOS/XQuartz 自动映射 host.docker.internal:<N>，端口对不上时可显式指定如 host.docker.internal:1）"
+        },
         "qtDesigner.nativeDesignerPath": {
           "type": "string",
           "default": "/opt/qt/5.14.2/gcc_64/bin/designer",

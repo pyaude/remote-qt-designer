@@ -41,6 +41,8 @@ code --install-extension remote-qt-designer-2.1.0.vsix
     "qtDesigner.dockerContainerName": "litho-zero-qt-dev-1",
     "qtDesigner.dockerWorkspacePath": "/workspace",
     "qtDesigner.dockerDesignerPath": "designer",
+    // Docker 模式 DISPLAY（留空自动检测；macOS/XQuartz 自动映射 host.docker.internal:<N>，端口对不上时可显式指定）
+    "qtDesigner.dockerDisplay": "",
 
     // ── Native 模式 ──
     "qtDesigner.nativeDesignerPath": "/opt/qt/5.14.2/gcc_64/bin/designer",
@@ -111,6 +113,20 @@ volumes:
 ```
 
 插件会自动检测容器是否在运行，未运行时自动 `docker compose up -d`。
+
+### Docker 模式（macOS + XQuartz）
+
+macOS 下容器需通过 `host.docker.internal` 访问宿主机 XQuartz：
+
+1. XQuartz 偏好设置 → Security → 勾选 **Allow network clients**，并重启 XQuartz
+2. 终端执行 `xhost +localhost` 授权本机连接
+3. 显示号说明：XQuartz 重启后显示号可能从 `:0` 变为 `:1`，插件会自动从 `DISPLAY` 环境变量提取显示号并映射为 `host.docker.internal:<N>`；若仍连不上，可显式指定：
+
+```jsonc
+"qtDesigner.dockerDisplay": "host.docker.internal:1"
+```
+
+优先级：`dockerDisplay` > 自动检测（macOS 映射 `host.docker.internal:<N>`，其他平台与 Native 模式一致，含 `display` 覆盖）。
 
 ## 打包
 

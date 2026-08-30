@@ -72,6 +72,24 @@ function getDisplay(config) {
     return '';
 }
 
+// ─── 获取 Docker 模式 DISPLAY（优先 dockerDisplay 配置，macOS/XQuartz 自动映射 host.docker.internal）───
+function getDockerDisplay(config) {
+    const override = config.get('dockerDisplay');
+    if (override) return override;
+
+    // macOS + XQuartz：容器内无法使用宿主机 launchd socket 形式的 DISPLAY
+    // （如 /private/tmp/.../org.macosforge.xquartz:0），需改用 host.docker.internal:<显示号>。
+    // 显示号从环境变量 DISPLAY 末尾提取（XQuartz 重启后可能从 :0 变为 :1），提取不到则默认 0。
+    if (process.platform === 'darwin') {
+        const m = (process.env.DISPLAY || '').match(/:(\d+)(?:\.\d+)?$/);
+        const display = `host.docker.internal:${m ? m[1] : '0'}`;
+        outputChannel.appendLine(`[INFO] macOS + XQuartz 自动映射 DISPLAY=${display}`);
+        return display;
+    }
+
+    return getDisplay(config) || ':0';
+}
+
 // ─── 检测 WSLg 环境 ───
 function isWslg() {
     return fs.existsSync('/mnt/wslg/runtime-dir/wayland-0');
@@ -184,7 +202,7 @@ async function launchDocker(config, filePath) {
         }
     }
 
-    const display = getDisplay(config) || ':0';
+    const display = getDockerDisplay(config);
     const waylandDisplay = process.env.WAYLAND_DISPLAY || 'wayland-0';
     outputChannel.appendLine(`[INFO] Docker 模式 | DISPLAY=${display} | WAYLAND=${waylandDisplay}`);
 
@@ -249,6 +267,6 @@ async function launchDocker(config, filePath) {
     });
 }
 
-function deactivate() {}
+function deactivate() { }
 
 module.exports = { activate, deactivate };

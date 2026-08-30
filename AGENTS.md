@@ -29,6 +29,7 @@ VSCode 扩展 **Remote Qt Designer**（`remote-qt-designer`）：右键 `.ui` �
 | `activate` | 注册 `qtDesigner.open` 命令，解析 `.ui` 路径并分发到对应模式 |
 | `detectMode` | `docker inspect` 检查容器是否在运行，决定 docker/native |
 | `getDisplay` | DISPLAY 解析优先级：配置覆盖 > 环境变量 > WSLg socket 自动检测（`:0`） |
+| `getDockerDisplay` | Docker 模式 DISPLAY：`dockerDisplay` 配置 > macOS/XQuartz 自动映射 `host.docker.internal:<N>`（N 取自环境变量 DISPLAY 末尾，默认 0）> 复用 `getDisplay` |
 | `patchWslgEnv` | WSLg 下补齐 `WAYLAND_DISPLAY` / `XDG_RUNTIME_DIR` / `PULSE_SERVER` |
 | `launchNative` | 宿主机 spawn Designer，处理 LD_LIBRARY_PATH、错误与帮助提示 |
 | `launchDocker` | 路径映射（工作区 → 容器内路径），容器未运行时 `docker compose up -d` |
